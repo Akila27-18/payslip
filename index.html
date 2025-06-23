@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Page</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="container">
+    <div class="left-section">
+      <img src="images/images/loginLogo. Gif.gif" alt="Login Illustration" />
+    </div>
+    <div class="right-section">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <div class="input-group">
+          <input type="text" id="username" placeholder="Enter your Name" required />
+          <span class="icon">📧</span>
+        </div>
+        <div class="input-group">
+          <input type="password" id="password" placeholder="Password" required />
+          <span class="icon toggle-password" onclick="togglePassword()">👁️</span>
+        </div>
+        <div class="forgot">
+          <a href="#">Forgot Password? <img src="images/images/Password.png"></a>
+        </div>
+        <button type="submit" class="login-btn"><a href="dashboard.html">Login</a></button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Toggle password visibility
+function togglePassword() {
+  const passwordInput = document.getElementById("password");
+  passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+}
+
+// Handle login form submission
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  // Validation
+  if (username === "" || password === "") {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  // Store in local storage (simulating login save)
+  const user = {
+    username: username,
+    password: password, // Note: In real apps, never store raw passwords
+  };
+
+  localStorage.setItem("userLogin", JSON.stringify(user));
+  alert("Login successful!");
+  // Redirect or proceed further
+});
+
+localStorage.setItem("userLogin", JSON.stringify(user));
+alert("Login successful!");
+window.location.href = "dashboard.html"; // Redirect
+
+
+  </script>
+</body>
+</html>

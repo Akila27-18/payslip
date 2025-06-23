@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payroll Details</title>
+  <link rel="stylesheet" href="payroll.css"/>
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+        <ul>
+            <li class="active"></li><img src="images/images/Overview.png"><a href="dashboard.html"> Overview</a></li>
+              <li><img src="images/images/Payroll.png">  <a href="payroll.html"> Pay roll </a></li>
+              <li><img src="images/images/Payroll.png"> <a href="payroll.html"> Pay slip </a></li>
+            </ul>
+    </aside>
+
+    <main>
+      <header class="header">
+        <h1>Payroll Details</h1>
+        <div>
+          <button id="thisMonthBtn">This Month 📅</button>
+          <button id="downloadBtn" class="download">Download</button>
+        </div>
+      </header>
+
+      <form id="payrollForm">
+        <div class="form-grid">
+          <input type="text" id="empName" placeholder="Employee Name" required />
+          <input type="text" id="empRole" placeholder="Employee Role" required />
+          <input type="text" id="empId" placeholder="Employee ID" required />
+          <input type="date" id="date" required />
+          <input type="number" id="basicSalary" placeholder="Basic Salary" required />
+          <input type="number" id="totalSalary" placeholder="Total Salary" readonly />
+          <input type="number" id="workingDays" placeholder="No of Working Days" required />
+          <input type="number" id="presentDays" placeholder="Total Present Days" required />
+          <input type="number" id="leaveDays" placeholder="Total Leave Days" required />
+          <input type="number" id="additions" placeholder="Additions" />
+          <input type="number" id="deductions" placeholder="Deductions" />
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="submit-btn">Submit Payroll</button>
+          <button type="reset" class="cancel-btn">Cancel</button>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <script>const form = document.getElementById('payrollForm');
+    const totalSalaryInput = document.getElementById('totalSalary');
+    
+    function calculateSalary() {
+      const basic = parseFloat(document.getElementById('basicSalary').value) || 0;
+      const additions = parseFloat(document.getElementById('additions').value) || 0;
+      const deductions = parseFloat(document.getElementById('deductions').value) || 0;
+      totalSalaryInput.value = basic + additions - deductions;
+    }
+    
+    // Auto calculate salary on input
+    document.getElementById('basicSalary').addEventListener('input', calculateSalary);
+    document.getElementById('additions').addEventListener('input', calculateSalary);
+    document.getElementById('deductions').addEventListener('input', calculateSalary);
+    
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+    
+      const data = {
+        empName: document.getElementById('empName').value,
+        empRole: document.getElementById('empRole').value,
+        empId: document.getElementById('empId').value,
+        date: document.getElementById('date').value,
+        basicSalary: document.getElementById('basicSalary').value,
+        totalSalary: totalSalaryInput.value,
+        workingDays: document.getElementById('workingDays').value,
+        presentDays: document.getElementById('presentDays').value,
+        leaveDays: document.getElementById('leaveDays').value,
+        additions: document.getElementById('additions').value,
+        deductions: document.getElementById('deductions').value,
+      };
+    
+      // Basic validation
+      if (!data.empName || !data.empRole || !data.empId || !data.date || !data.basicSalary) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+    
+      // Save to localStorage
+      const records = JSON.parse(localStorage.getItem('payrollRecords')) || [];
+      records.push(data);
+      localStorage.setItem('payrollRecords', JSON.stringify(records));
+    
+      alert('Payroll data saved successfully!');
+      form.reset();
+      totalSalaryInput.value = '';
+    });
+    </script>
+</body>
+</html>

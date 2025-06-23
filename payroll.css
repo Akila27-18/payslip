@@ -1,0 +1,111 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #fff;
+    color: #222;
+    background: #ffe588;    
+  }
+  
+  .container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    background: #4a5a5e;
+    color: white;
+    padding: 2rem 1rem;
+    width: 180px;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar li {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .sidebar .active {
+    color: #f2cd00;
+    font-weight: bold;
+  }
+  
+  main {
+    flex: 1;
+    padding: 2rem;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .header button {
+    margin-left: 1rem;
+    padding: 8px 12px;
+    border: none;
+    background: #3e4547;
+    font-size: 20px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .download {
+    background: #f2cd00;
+    color: black;
+  }
+  
+  form {
+    background: #ffe588;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  
+  input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .submit-btn {
+    background: #f2cd00;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .cancel-btn {
+    background: #3e4547;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+ a{
+    text-decoration: none;
+    font-size: x-large;
+    color: white;
+ }  

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css"/>
+</head>
+<body>
+    <div class="sidebar">
+        <ul>
+          <li class="active"></li><img src="images/images/Overview.png"><a href="dashboard.html"> Overview</a></li>
+          <li><img src="images/images/Payroll.png">  <a href="payroll.html"> Pay roll </a></li>
+          <li><img src="images/images/Payroll.png"> <a href="payroll.html"> Pay slip </a></li>
+        </ul>
+      </div>
+
+  <div class="main-content">
+    <div class="top-banner">
+      <h2 id="greeting">Good Day !!!</h2>
+      <div class="top-actions">
+        <div class="search-box">
+          <input type="text" placeholder="Search" />
+          <button><img src="images/images/search.png"></button>
+        </div>
+        <span class="notify"><img src="images/images/notification.png"><span class="dot"></span></span>
+        <img src="images/images/Profile.png" class="user-pic" alt="User" />
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <section class="dashboard-cards">
+        
+            <div class="card"><span><img src="images/images/Total.png"></span><p>Total Employees</p></div>
+            <div class="card"><span><img src="images/images/no of leave.png"></span><p>Number Of leave</p></div>
+            <div class="card"><span><img src="images/images/add.png"></span><p>New Employee’s</p></div>
+            <div class="card"><span><img src="images/images/holiday.png"></span><p>Holiday of this Year</p></div>
+    
+    </section>
+
+    <section class="dashboard-bottom">
+      <div class="calendar-box">
+        <h3>Calendar</h3>
+        <div class="calendar-header">
+          <button onclick="prevMonth()">&lt;</button>
+          <span id="calendar-month">Month YYYY</span>
+          <button onclick="nextMonth()">&gt;</button>
+        </div>
+        <table class="calendar-table">
+          <thead>
+            <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+          </thead>
+          <tbody id="calendar-body"></tbody>
+        </table>
+      </div>
+
+      <div class="meeting-box">
+        <div class="meeting-header">
+          <h3>Upcoming Meetings</h3>
+          <a href="#">View All</a>
+        </div>
+        <div class="meeting-card">
+          <p>Client Meeting - 10.00 AM</p><span>Wed<br>June 27</span>
+        </div>
+        <div class="meeting-card">
+          <p>Team Meeting - 11.00 AM</p><span>Wed<br>July 17</span>
+        </div>
+        <div class="meeting-card">
+          <p>HR Interview - 2.00 PM</p><span>Mon<br>June 28</span>
+        </div>
+        <div class="meeting-card">
+          <p>Client Meeting - 4.00 PM</p><span>Mon<br>July 10</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    let today = new Date();
+    let currentMonth = today.getMonth();
+    let currentYear = today.getFullYear();
+
+    window.onload = function () {
+      showGreeting();
+      generateCalendar(currentMonth, currentYear);
+
+      const user = localStorage.getItem("userLogin");
+      if (!user) {
+        alert("Please login first!");
+        window.location.href = "index.html";
+      }
+    };
+
+    function showGreeting() {
+      const hour = new Date().getHours();
+      const greeting = document.getElementById("greeting");
+
+      if (hour >= 5 && hour < 12) greeting.textContent = "Good Morning !!!";
+      else if (hour >= 12 && hour < 17) greeting.textContent = "Good Afternoon !!!";
+      else if (hour >= 17 && hour < 21) greeting.textContent = "Good Evening !!!";
+      else greeting.textContent = "Good Night !!!";
+    }
+
+    function generateCalendar(month, year) {
+      const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ];
+
+      document.getElementById("calendar-month").textContent = `${monthNames[month]} ${year}`;
+
+      const calendarBody = document.getElementById("calendar-body");
+      calendarBody.innerHTML = "";
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const isTodayMonth = month === today.getMonth() && year === today.getFullYear();
+
+      let date = 1;
+      for (let i = 0; i < 6; i++) {
+        let row = document.createElement("tr");
+
+        for (let j = 0; j < 7; j++) {
+          let cell = document.createElement("td");
+
+          if (i === 0 && j < firstDay) {
+            cell.textContent = "";
+          } else if (date > daysInMonth) {
+            break;
+          } else {
+            cell.textContent = date;
+            if (isTodayMonth && date === today.getDate()) {
+              cell.classList.add("highlight");
+            }
+            date++;
+          }
+
+          row.appendChild(cell);
+        }
+
+        calendarBody.appendChild(row);
+      }
+    }
+
+    function nextMonth() {
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      generateCalendar(currentMonth, currentYear);
+    }
+
+    function prevMonth() {
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      generateCalendar(currentMonth, currentYear);
+    }
+
+    function logout() {
+      localStorage.removeItem("userLogin");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

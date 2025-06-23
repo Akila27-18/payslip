@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payslip Details</title>
+  <link rel="stylesheet" href="payslip.css" />
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+        <ul>
+            <li class="active"></li><img src="images/images/Overview.png"><a href="dashboard.html"> Overview</a></li>
+              <li><img src="images/images/Payroll.png">  <a href="payroll.html"> Pay roll </a></li>
+              <li><img src="images/images/Payroll.png"> <a href="payroll.html"> Pay slip </a></li>
+            </ul>
+    </aside>
+
+    <main>
+      <h2>Payslip Details</h2>
+      <div class="payslip-box" id="payslipBox">
+        <!-- Payslip content will be loaded here -->
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function loadPayslip() {
+  const records = JSON.parse(localStorage.getItem('payrollRecords')) || [];
+  if (records.length === 0) {
+    document.getElementById('payslipBox').innerHTML = "<p>No payslip data available.</p>";
+    return;
+  }
+
+  const latest = records[records.length - 1];
+
+  const totalEarnings = (
+    parseFloat(latest.basicSalary || 0) +
+    parseFloat(latest.additions || 0) -
+    parseFloat(latest.deductions || 0)
+  ).toLocaleString('en-IN');
+
+  const html = `
+    <div class="row">
+      <div>
+        <p><strong>Employee Name :</strong> ${latest.empName}</p>
+        <p><strong>Employee I’D :</strong> ${latest.empId}</p>
+        <p><strong>Role :</strong> ${latest.empRole}</p>
+      </div>
+      <div>
+        <p><strong>Date :</strong> ${latest.date}</p>
+        <p><strong>Month :</strong> ${new Date(latest.date).toLocaleString('default', { month: 'long' })}</p>
+      </div>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th colspan="2">Employee Details</th>
+          <th colspan="2">Earnings</th>
+          <th>Additions</th>
+          <th>Deductions</th>
+        </tr>
+        <tr>
+          <th>Employee Id</th>
+          <th>Employee Name</th>
+          <th>Basic salary</th>
+          <th>Total Salary</th>
+          <th>Additions</th>
+          <th>Deductions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>${latest.empId}</td>
+          <td>${latest.empName}</td>
+          <td>${parseFloat(latest.basicSalary).toLocaleString('en-IN')}</td>
+          <td>${parseFloat(latest.totalSalary).toLocaleString('en-IN')}</td>
+          <td>${parseFloat(latest.additions || 0).toLocaleString('en-IN')}</td>
+          <td>${parseFloat(latest.deductions || 0).toLocaleString('en-IN')}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="total">Total Earnings: ₹ ${totalEarnings}</div>
+  `;
+
+  document.getElementById('payslipBox').innerHTML = html;
+}
+
+window.onload = loadPayslip;
+
+  </script>
+</body>
+</html>
